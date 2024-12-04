@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: Library Management API
+  version: 1.0.0
+  description: API for managing books and authors in a library.
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  /books:
+    get:
+      summary: Get all books or filter by bookName and releaseDate
+      parameters:
+        - name: bookName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: releaseDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Add a new book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '201':
+          description: Book created
+    put:
+      summary: Update a book (idempotent)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '200':
+          description: Book updated
+    delete:
+      summary: Delete a book
+      parameters:
+        - name: bookId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book deleted

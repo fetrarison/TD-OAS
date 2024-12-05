@@ -93,10 +93,10 @@
         "summary" : "Delete a book by ID",
         "parameters" : [ {
           "name" : "bookId",
-          "in" : "path",
+          "in" : "query",
           "required" : true,
-          "style" : "simple",
-          "explode" : false,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string"
           }
@@ -178,10 +178,10 @@
         "summary" : "Delete an author by ID",
         "parameters" : [ {
           "name" : "authorId",
-          "in" : "path",
+          "in" : "query",
           "required" : true,
-          "style" : "simple",
-          "explode" : false,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string"
           }

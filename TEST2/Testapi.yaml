@@ -1,0 +1,254 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Library Management API",
+    "description" : "API for managing books and authors in a library system.",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/HEIFETRA2/TD1/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "https://mockapi.swaggerhub.com/your-username/library-api/v1",
+    "description" : "Mock server provided by SwaggerHub"
+  } ],
+  "paths" : {
+    "/books" : {
+      "get" : {
+        "summary" : "Retrieve a list of books with optional filters",
+        "parameters" : [ {
+          "name" : "bookName",
+          "in" : "query",
+          "description" : "Filter by the book's name",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "releaseDate",
+          "in" : "query",
+          "description" : "Filter by release date range",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/releaseDate"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of books",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Book"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update an existing book (idempotent)",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Book"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Book updated"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Add a new book",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Book"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Book created"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a book by ID",
+        "parameters" : [ {
+          "name" : "bookId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Book deleted"
+          }
+        }
+      }
+    },
+    "/authors" : {
+      "get" : {
+        "summary" : "Retrieve a list of authors with optional filters",
+        "parameters" : [ {
+          "name" : "authorName",
+          "in" : "query",
+          "description" : "Filter by the author's name",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of authors",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Author"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update an existing author (idempotent)",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Author"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Author updated"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Add a new author",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Author"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Author created"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete an author by ID",
+        "parameters" : [ {
+          "name" : "authorId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Author deleted"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Book" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "bookName" : {
+            "type" : "string"
+          },
+          "author" : {
+            "type" : "string"
+          },
+          "pageNumbers" : {
+            "type" : "integer"
+          },
+          "topic" : {
+            "type" : "string",
+            "enum" : [ "ROMANCE", "COMEDY", "OTHER" ]
+          },
+          "releaseDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "Author" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "sex" : {
+            "type" : "string",
+            "enum" : [ "M", "F" ]
+          }
+        }
+      },
+      "releaseDate" : {
+        "type" : "object",
+        "properties" : {
+          "start" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "end" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      }
+    }
+  }
+}
